@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="India - Premium fashion e-commerce shopping experience with AI Stylist, trending collections, and instant checkout.">
+    <meta name="theme-color" content="#ff3c78">
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data:; frame-src https://www.google.com;">
+
+    <title>India - Fashion E-Commerce Store</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="https://i.postimg.cc/TP6JjSTt/logo.webp" type="image/webp">
+
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="ecom.css">
+</head>
+<body>
+    <!-- Top Announcement Bar -->
+    <section class="top-txt">
+        <div class="head container">
+            <div class="head-txt">
+                <p><i class='bx bx-check-shield' aria-hidden="true"></i> Free shipping on orders over ₹2,000 &bull; 30-day return guarantee</p>
+            </div>
+            <div class="head-right-tools">
+                <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+                    <i class='bx bx-moon' id="theme-icon" aria-hidden="true"></i>
+                    <span id="theme-label">Dark Mode</span>
+                </button>
+                <div class="sing_in_up" id="auth-area">
+                    <a href="#" id="signin-link" onclick="event.preventDefault(); openAuthModal('signin')">SIGN IN</a>
+                    <a href="#" id="signup-link" onclick="event.preventDefault(); openAuthModal('signup')">SIGN UP</a>
+                </div>
+                <div class="user-logged-in" id="user-logged-area" style="display:none;">
+                    <span class="user-greeting" id="user-greeting"><i class='bx bx-user-circle'></i> <span id="user-display-name"></span></span>
+                    <a href="#" id="logout-link" onclick="event.preventDefault(); logoutUser()">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" aria-label="Main Navigation">
+        <div class="navbar-container container">
+            <input type="checkbox" name="menu-toggle" id="checkbox" aria-label="Toggle navigation menu">
+            <div class="hamburger-lines" aria-hidden="true">
+                <span class="line line1"></span>
+                <span class="line line2"></span>
+                <span class="line line3"></span>
+            </div>
+
+            <div class="logo">
+                <a href="#home" aria-label="India Home">
+                    <img src="https://i.postimg.cc/TP6JjSTt/logo.webp" alt="India Logo">
+                </a>
+            </div>
+
+            <ul class="menu-items">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#sellers">Shop</a></li>
+                <li><a href="#trending">Trending</a></li>
+                <li><a href="#news">Blog</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-icons-group">
+                <!-- Order History Trigger -->
+                <button type="button" class="nav-icon-btn" id="nav-orders-btn" title="Order History" aria-label="View order history">
+                    <i class='bx bx-receipt' aria-hidden="true"></i>
+                </button>
+                <!-- Wishlist Trigger -->
+                <button type="button" class="nav-icon-btn" id="nav-wishlist-btn" title="Wishlist" aria-label="View wishlist">
+                    <i class='bx bx-heart' aria-hidden="true"></i>
+                    <span class="nav-badge" id="wishlist-badge" aria-live="polite">0</span>
+                </button>
+                <!-- Cart Trigger -->
+                <button type="button" class="nav-icon-btn" id="nav-cart-btn" title="Shopping Cart" aria-label="Open shopping cart drawer">
+                    <i class='bx bx-shopping-bag' aria-hidden="true"></i>
+                    <span class="nav-badge" id="cart-count" aria-live="polite">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Home Section -->
+    <section id="home">
+        <div class="home_page">
+            <div class="home_img">
+                <img src="https://i.postimg.cc/t403yfn9/home2.jpg" alt="Summer and Autumn Fashion Banner">
+            </div>
+            <div class="home_txt">
+                <p class="collectio">SUMMER COLLECTION 2026</p>
+                <h2>FALL - WINTER<br>Luxury Essentials</h2>
+                <div class="home_label">
+                    <p>Ethically crafted luxury fashion pieces with unwavering commitment to quality and contemporary silhouettes.</p>
+                </div>
+                <button type="button" onclick="document.querySelector('#sellers').scrollIntoView({behavior: 'smooth'})">
+                    <a href="#sellers">EXPLORE SHOP</a><i class='bx bx-right-arrow-alt' aria-hidden="true"></i>
+                </button>
+
+                <!-- Fixed Sale Countdown Timer -->
+                <div class="sale-countdown" aria-label="Seasonal sale countdown">
+                    <div class="countdown-label"><i class='bx bx-timer' aria-hidden="true"></i> Limited Seasonal Sale Ends In:</div>
+                    <div class="countdown-timer" id="countdown-timer" aria-live="polite">
+                        <div class="countdown-box"><span class="num" id="cd-days">00</span><span class="unit">Days</span></div>
+                        <div class="countdown-box"><span class="num" id="cd-hours">00</span><span class="unit">Hours</span></div>
+                        <div class="countdown-box"><span class="num" id="cd-mins">00</span><span class="unit">Mins</span></div>
+                        <div class="countdown-box"><span class="num" id="cd-secs">00</span><span class="unit">Secs</span></div>
+                    </div>
+                </div>
+
+                <div class="home_social_icons">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class='bx bxl-facebook'></i></a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class='bx bxl-twitter'></i></a>
+                    <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class='bx bxl-pinterest'></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class='bx bxl-instagram'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collections Banner Section -->
+    <section id="collection">
+        <div class="collections container">
+            <div class="content">
+                <img src="https://i.postimg.cc/Xqmwr12c/clothing.webp" alt="Clothing Collections Category" loading="lazy" />
+                <div class="img-content">
+                    <p>Clothing</p>
+                    <button type="button" onclick="filterByCategory('Clothing')"><a href="#sellers">SHOP CLOTHING</a></button>
+                </div>
+            </div>
+            <div class="content2">
+                <img src="https://i.postimg.cc/8CmBZH5N/shoes.webp" alt="Shoes Spring Category" loading="lazy" />
+                <div class="img-content2">
+                    <p>Shoes</p>
+                    <button type="button" onclick="filterByCategory('Shoes')"><a href="#sellers">SHOP SHOES</a></button>
+                </div>
+            </div>
+            <div class="content3">
+                <img src="https://i.postimg.cc/MHv7KJYp/access.webp" alt="Luxury Accessories Category" loading="lazy" />
+                <div class="img-content3">
+                    <p>Accessories</p>
+                    <button type="button" onclick="filterByCategory('Accessories')"><a href="#sellers">SHOP ACCESSORIES</a></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Now Section (Phase 3) -->
+    <section id="trending" class="seller container">
+        <div class="section-title-wrap">
+            <div>
+                <h2>Trending Now</h2>
+                <p class="section-subtitle">Ranked by community popularity (views + 3 &times; cart additions)</p>
+            </div>
+        </div>
+        <div class="best-seller" id="trending-grid" aria-live="polite">
+            <!-- Rendered dynamically via trending algorithm -->
+        </div>
+    </section>
+
+    <!-- Main Shop / Catalogue Section (Phase 2 & Phase 3) -->
+    <section id="sellers">
+        <div class="seller container">
+            <div class="section-title-wrap">
+                <div>
+                    <h2 id="catalogue-title">Catalogue Collection</h2>
+                    <p class="section-subtitle" id="catalogue-count-text">Showing all products</p>
+                </div>
+            </div>
+
+            <!-- Search, Filter & Sort Toolbar -->
+            <div class="shop-toolbar" aria-label="Product Search and Filters">
+                <div class="toolbar-top">
+                    <!-- Live Search -->
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search by product name..." aria-label="Search by product name">
+                        <i class='bx bx-search search-icon' aria-hidden="true"></i>
+                    </div>
+
+                    <!-- Category Chips -->
+                    <div class="category-chips" role="radiogroup" aria-label="Product Categories">
+                        <button type="button" class="chip-btn active" data-category="All" role="radio" aria-checked="true">All</button>
+                        <button type="button" class="chip-btn" data-category="Clothing" role="radio" aria-checked="false">Clothing</button>
+                        <button type="button" class="chip-btn" data-category="Shoes" role="radio" aria-checked="false">Shoes</button>
+                        <button type="button" class="chip-btn" data-category="Accessories" role="radio" aria-checked="false">Accessories</button>
+                    </div>
+                </div>
+
+                <div class="toolbar-controls">
+                    <!-- Color Filter -->
+                    <div class="filter-group">
+                        <label for="color-filter">Colour:</label>
+                        <select id="color-filter" class="filter-select" aria-label="Filter by color">
+                            <option value="All">All Colours</option>
+                            <option value="red">Red</option>
+                            <option value="blue">Blue</option>
+                            <option value="white">White</option>
+                            <option value="green">Green</option>
+                            <option value="grey">Grey</option>
+                            <option value="brown">Brown</option>
+                            <option value="black">Black</option>
+                            <option value="gold">Gold</option>
+                        </select>
+                    </div>
+
+                    <!-- Price Range Slider -->
+                    <div class="filter-group price-range-group">
+                        <label for="price-range">Max Price:</label>
+                        <input type="range" id="price-range" min="500" max="5000" step="100" value="5000" aria-label="Maximum price filter">
+                        <span class="price-display" id="price-range-val">₹5,000</span>
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="filter-group">
+                        <label for="sort-select">Sort By:</label>
+                        <select id="sort-select" class="filter-select" aria-label="Sort products">
+                            <option value="default">Featured</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="rating-desc">Highest Rated</option>
+                            <option value="date-desc">Newest Added</option>
+                        </select>
+                    </div>
+
+                    <!-- Reset Filters Button -->
+                    <button type="button" class="btn-reset-filters" id="reset-filters-btn">
+                        <i class='bx bx-reset' aria-hidden="true"></i> Reset Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Product Grid rendered by renderProducts() -->
+            <div class="best-seller" id="product-grid" aria-live="polite">
+                <!-- Skeleton cards while rendering -->
+                <div class="skeleton-card"><div class="skeleton-box skeleton-img"></div><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-rating"></div><div class="skeleton-box skeleton-price"></div></div>
+                <div class="skeleton-card"><div class="skeleton-box skeleton-img"></div><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-rating"></div><div class="skeleton-box skeleton-price"></div></div>
+                <div class="skeleton-card"><div class="skeleton-box skeleton-img"></div><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-rating"></div><div class="skeleton-box skeleton-price"></div></div>
+                <div class="skeleton-card"><div class="skeleton-box skeleton-img"></div><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-rating"></div><div class="skeleton-box skeleton-price"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recently Viewed Strip (Phase 3) -->
+    <section class="recently-viewed-section container" id="recently-viewed-section" style="display:none;">
+        <div class="section-title-wrap">
+            <div>
+                <h2>Recently Viewed</h2>
+                <p class="section-subtitle">Items you explored during this visit</p>
+            </div>
+        </div>
+        <div class="recently-viewed-grid" id="recently-viewed-grid"></div>
+    </section>
+
+    <!-- Latest News / Trends Section -->
+    <section id="news">
+        <div class="news-heading">
+            <p>LATEST NEWS</p>
+            <h2>Fashion New Trends</h2>
+        </div>
+        <div class="l-news container">
+            <article class="l-news1">
+                <div class="news1-img">
+                    <img src="https://i.postimg.cc/2y6wbZCm/news1.jpg" alt="Curling irons styling guide" loading="lazy">
+                </div>
+                <div class="news1-conte">
+                    <div class="date-news1">
+                        <p><i class='bx bxs-calendar' aria-hidden="true"></i> 12 February 2026</p>
+                        <h4>What Curling Irons Are The Best Ones</h4>
+                        <a href="https://www.vogue.com/article/best-curling-irons" target="_blank" rel="noopener noreferrer">read more</a>
+                    </div>
+                </div>
+            </article>
+            <article class="l-news2">
+                <div class="news2-img">
+                    <img src="https://i.postimg.cc/9MXPK7RT/news2.jpg" alt="Health benefits of sunglasses" loading="lazy">
+                </div>
+                <div class="news2-conte">
+                    <div class="date-news2">
+                        <p><i class='bx bxs-calendar' aria-hidden="true"></i> 17 February 2026</p>
+                        <h4>The Health Benefits Of Sunglasses</h4>
+                        <a href="https://www.rivieraopticare.com/blog/314864-the-health-benefits-of-wearing-sunglasses_2/" target="_blank" rel="noopener noreferrer">read more</a>
+                    </div>
+                </div>
+            </article>
+            <article class="l-news3">
+                <div class="news3-img">
+                    <img src="https://i.postimg.cc/x1KKdRLM/news3.jpg" alt="Eternity bands jewellery feature" loading="lazy">
+                </div>
+                <div class="news3-conte">
+                    <div class="date-news3">
+                        <p><i class='bx bxs-calendar' aria-hidden="true"></i> 26 February 2026</p>
+                        <h4>Eternity Bands Do Last Forever</h4>
+                        <a href="https://www.briangavindiamonds.com/news/eternity-bands-symbolize-love-that-lasts-forever/" target="_blank" rel="noopener noreferrer">read more</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Contact & Location Section -->
+    <section id="contact">
+        <div class="contact container">
+            <div class="map">
+                <iframe
+                    title="India Store Location Map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.121169986175!2d73.90618951442687!3d18.568575172551647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c131ed5b54a7%3A0xad718b8b2c93d36d!2sSky%20Vista!5e0!3m2!1sen!2sin!4v1654257749399!5m2!1sen!2sin"
+                    width="600"
+                    height="380"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <form action="https://formspree.io/f/xzbowpjq" method="POST" aria-label="Contact form">
+                <div class="form">
+                    <div class="form-txt">
+                        <h4>INFORMATION</h4>
+                        <h1>Contact Us</h1>
+                        <span>As you might expect of a company that began as a high-end interiors contractor, we pay strict attention.</span>
+                        <h3>INDIA</h3>
+                        <p>Hyderabad - 500010, Telangana, India <br>+91 8121951510</p>
+                        <h3>Headquarters</h3>
+                        <p>Hyderabad, Telangana, India.<br>PIN 500001</p>
+                    </div>
+                    <div class="form-details">
+                        <label for="name" class="visually-hidden" style="display:none;">Name</label>
+                        <input type="text" name="name" id="name" placeholder="Name" required aria-required="true">
+
+                        <label for="email" class="visually-hidden" style="display:none;">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Email" required aria-required="true">
+
+                        <label for="message" class="visually-hidden" style="display:none;">Message</label>
+                        <textarea name="message" id="message" cols="52" rows="6" placeholder="Message" required aria-required="true"></textarea>
+
+                        <button type="submit">SEND MESSAGE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container container">
+            <div class="content_1">
+                <img src="https://i.postimg.cc/htGyQ4JB/footer-logo.png" alt="India Footer Logo">
+                <p>The customer is at the heart of our unique business model, which includes ethical fashion design.</p>
+                <img src="https://i.postimg.cc/Nj9dgJ98/cards.png" alt="Accepted Payment Methods: Visa, MasterCard, Amex">
+            </div>
+            <div class="content_2">
+                <h4>SHOPPING</h4>
+                <a href="#sellers" onclick="filterByCategory('Clothing')">Clothing Store</a>
+                <a href="#sellers" onclick="filterByCategory('Shoes')">Trending Shoes</a>
+                <a href="#sellers" onclick="filterByCategory('Accessories')">Accessories</a>
+                <a href="#trending">Trending Now</a>
+            </div>
+            <div class="content_3">
+                <h4>HELP & POLICIES</h4>
+                <a href="#contact">Contact Us</a>
+                <a href="#sellers">Payment Methods</a>
+                <a href="#sellers">Delivery Information</a>
+                <a href="#sellers">Return and Exchange</a>
+            </div>
+            <div class="content_4">
+                <h4>NEWSLETTER</h4>
+                <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+                <form class="f-mail" onsubmit="event.preventDefault(); showToast('Thank you for subscribing to our newsletter!', 'success');" aria-label="Newsletter Subscription">
+                    <input type="email" placeholder="Your Email" required aria-label="Your email address">
+                    <button type="submit" aria-label="Subscribe">
+                        <i class='bx bx-envelope' aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="f-design">
+            <div class="f-design-txt container">
+                <p>Design and Code by shivakumar &bull; India Store &bull; Demo data stored locally &bull; No personal data collected</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Slide-in Cart Drawer (Phase 2 & Phase 5) -->
+    <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+    <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+        <div class="drawer-header">
+            <h3 id="cart-drawer-title"><i class='bx bx-shopping-bag' aria-hidden="true"></i> Your Cart</h3>
+            <button type="button" class="drawer-close-btn" id="drawer-close-btn" aria-label="Close cart drawer">&times;</button>
+        </div>
+
+        <!-- Free Shipping Progress Bar (Free above ₹2000) -->
+        <div class="shipping-progress-wrap">
+            <div class="shipping-progress-text" id="shipping-progress-text">Add ₹2,000 more for FREE Delivery!</div>
+            <div class="shipping-progress-bar">
+                <div class="shipping-progress-fill" id="shipping-progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="drawer-body" id="cart-items-container">
+            <!-- Dynamic cart items inserted here -->
+        </div>
+
+        <div class="drawer-footer">
+            <!-- Coupon Code Section -->
+            <div class="coupon-section">
+                <input type="text" id="coupon-input" placeholder="Promo code (WELCOME10)" aria-label="Enter promo code">
+                <button type="button" class="coupon-btn" id="apply-coupon-btn">Apply</button>
+            </div>
+            <div id="applied-coupon-container"></div>
+
+            <div class="totals-summary">
+                <div class="totals-row"><span>Subtotal:</span><span id="cart-subtotal">₹0</span></div>
+                <div class="totals-row" id="cart-discount-row" style="display:none;"><span>Discount:</span><span id="cart-discount">-₹0</span></div>
+                <div class="totals-row"><span>Estimated Shipping:</span><span id="cart-shipping">₹0</span></div>
+                <div class="totals-row grand-total"><span>Grand Total:</span><span id="cart-grand-total">₹0</span></div>
+            </div>
+
+            <button type="button" class="btn-drawer-checkout" id="drawer-checkout-btn">Proceed to Checkout</button>
+        </div>
+    </aside>
+
+    <!-- Quick View Modal (Phase 2) -->
+    <div class="modal-overlay" id="quickview-overlay" aria-hidden="true"></div>
+    <div class="app-modal" id="quickview-modal" role="dialog" aria-modal="true" aria-labelledby="qv-title">
+        <button type="button" class="modal-close-btn" id="quickview-close-btn" aria-label="Close quick view">&times;</button>
+        <div class="quickview-layout">
+            <div class="quickview-image-wrap">
+                <img src="" id="qv-img" alt="Product preview image">
+            </div>
+            <div class="quickview-details">
+                <h3 id="qv-title">Product Title</h3>
+                <div class="rating" id="qv-rating"></div>
+                <div class="quickview-price" id="qv-price">₹0</div>
+                <p id="qv-desc" style="color:var(--text-secondary); font-size:13px; line-height:1.5;">Premium quality piece meticulously tailored from top-grade materials, engineered for sophisticated comfort and everyday versatility.</p>
+
+                <div class="quickview-selector-title">Select Colour:</div>
+                <div class="quickview-pill-group" id="qv-colors-group"></div>
+
+                <div class="quickview-selector-title">Select Size:</div>
+                <div class="quickview-pill-group" id="qv-sizes-group"></div>
+
+                <div class="quickview-actions">
+                    <button type="button" class="btn-add-cart" id="qv-add-cart-btn" style="padding:12px;">Add To Cart</button>
+                    <button type="button" class="btn-buy-now" id="qv-buy-now-btn" style="padding:12px;">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Checkout Modal (Phase 5) -->
+    <div class="modal-overlay" id="checkout-overlay" aria-hidden="true"></div>
+    <div class="app-modal" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <button type="button" class="modal-close-btn" id="checkout-close-btn" aria-label="Close checkout">&times;</button>
+        <div id="checkout-form-container">
+            <div class="checkout-header">
+                <h3 id="checkout-title">Instant Express Checkout</h3>
+                <span class="demo-badge-pill"><i class='bx bx-info-circle'></i> Demo checkout – no real payment</span>
+            </div>
+            <form id="checkout-form" novalidate>
+                <div class="checkout-form-grid">
+                    <div class="form-field-group full-col">
+                        <label for="co-name">Full Name *</label>
+                        <input type="text" id="co-name" required placeholder="e.g. Shiva Kumar">
+                        <span class="form-field-error" id="err-name"></span>
+                    </div>
+                    <div class="form-field-group">
+                        <label for="co-phone">10-Digit Mobile Phone *</label>
+                        <input type="tel" id="co-phone" maxlength="10" required placeholder="9876543210">
+                        <span class="form-field-error" id="err-phone"></span>
+                    </div>
+                    <div class="form-field-group">
+                        <label for="co-pin">6-Digit PIN Code *</label>
+                        <input type="text" id="co-pin" maxlength="6" required placeholder="500001">
+                        <span class="form-field-error" id="err-pin"></span>
+                    </div>
+                    <div class="form-field-group full-col">
+                        <label for="co-address">Delivery Address *</label>
+                        <textarea id="co-address" rows="3" required placeholder="Flat/House No., Street, Landmark, City"></textarea>
+                        <span class="form-field-error" id="err-address"></span>
+                    </div>
+                </div>
+
+                <div class="checkout-summary-box">
+                    <p><span>Order Items:</span><span id="co-summary-items">0 items</span></p>
+                    <p><span>Total Amount:</span><span id="co-summary-total">₹0</span></p>
+                    <p class="grand"><span>Payable on Delivery:</span><span id="co-summary-payable">₹0</span></p>
+                </div>
+
+                <button type="submit" class="btn-place-order" id="btn-place-order">Confirm Order (Cash on Delivery)</button>
+            </form>
+        </div>
+
+        <div id="checkout-success-container" style="display:none;" class="order-success-screen">
+            <i class='bx bx-check-circle'></i>
+            <h3>Order Successfully Placed!</h3>
+            <p>Thank you for shopping with India.</p>
+            <div class="order-id-badge" id="success-order-id">PS-849201</div>
+            <p style="font-size:13px; color:var(--text-secondary);">An order confirmation has been stored in your local session. Estimated delivery within 3-5 business days.</p>
+            <button type="button" class="btn-drawer-checkout" style="margin-top:20px;" onclick="closeCheckoutModal()">Back to Shopping</button>
+        </div>
+    </div>
+
+    <!-- Order History Modal -->
+    <div class="modal-overlay" id="orders-overlay" aria-hidden="true"></div>
+    <div class="app-modal" id="order-history-modal" role="dialog" aria-modal="true" aria-labelledby="orders-title">
+        <button type="button" class="modal-close-btn" id="orders-close-btn" aria-label="Close orders">&times;</button>
+        <div class="checkout-header">
+            <h3 id="orders-title"><i class='bx bx-package'></i> Demo Order History</h3>
+            <span class="demo-badge-pill">Stored in localStorage</span>
+        </div>
+        <div id="orders-list-container">
+            <!-- Order history items rendered dynamically -->
+        </div>
+    </div>
+
+    <!-- Floating AI Stylist Panel (Phase 4) -->
+    <button type="button" class="ai-stylist-fab" id="ai-stylist-fab" aria-label="Open AI Stylist Assistant">
+        <i class='bx bx-sparkles' aria-hidden="true"></i>
+        <span>AI Stylist</span>
+    </button>
+
+    <section class="ai-panel" id="ai-panel" role="region" aria-label="AI Fashion Stylist">
+        <div class="ai-panel-header">
+            <div class="ai-header-title">
+                <i class='bx bx-bot'></i>
+                <span>India AI Stylist</span>
+            </div>
+            <button type="button" class="ai-close-btn" id="ai-close-btn" aria-label="Close AI Stylist">&times;</button>
+        </div>
+
+        <!-- Quick Pick Chips -->
+        <div class="ai-panel-chips">
+            <button type="button" class="ai-chip" data-prompt="Best outfit for a Party">Party</button>
+            <button type="button" class="ai-chip" data-prompt="Smart formal look for Office">Office</button>
+            <button type="button" class="ai-chip" data-prompt="Relaxed weekend Casual wear">Casual</button>
+            <button type="button" class="ai-chip" data-prompt="Elegant look for a Wedding">Wedding</button>
+            <button type="button" class="ai-chip" data-prompt="Fashion items, each under ₹1500">Each under ₹1500</button>
+        </div>
+
+        <!-- Optional Colour Preference Dropdown (No photo upload) -->
+        <div class="ai-panel-color-pref">
+            <label for="ai-color-pref">Colour Palette:</label>
+            <select id="ai-color-pref">
+                <option value="">Any Colour</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="white">White</option>
+                <option value="green">Green</option>
+                <option value="black">Black</option>
+                <option value="brown">Brown</option>
+                <option value="gold">Gold</option>
+                <option value="grey">Grey</option>
+            </select>
+        </div>
+
+        <!-- Chat Conversation Thread -->
+        <div class="ai-chat-thread" id="ai-chat-thread" aria-live="polite">
+            <div class="chat-bubble bot">
+                Hello! I am your personal AI Stylist. Tell me what occasion or look you are shopping for (e.g., <em>"a wedding look with each piece under ₹3000"</em>), or pick a chip above!
+            </div>
+        </div>
+
+        <!-- AI Query Input Form -->
+        <form class="ai-panel-input" id="ai-input-form">
+            <input type="text" id="ai-user-query" placeholder="Ask stylist (max 300 chars)..." maxlength="300" required aria-label="Ask your AI fashion stylist">
+            <button type="submit" aria-label="Send message to AI stylist"><i class='bx bx-send' aria-hidden="true"></i></button>
+        </form>
+    </section>
+
+    <!-- Sign In Modal -->
+    <div class="auth-modal-overlay" id="auth-modal-overlay" aria-hidden="true"></div>
+    <div class="auth-modal" id="signin-modal" role="dialog" aria-modal="true" aria-labelledby="signin-title">
+        <button type="button" class="auth-modal-close" onclick="closeAuthModal()" aria-label="Close">&times;</button>
+        <h2 id="signin-title"><i class='bx bx-log-in'></i> Sign In</h2>
+        <form id="signin-form" onsubmit="event.preventDefault(); handleSignIn()">
+            <div class="auth-field">
+                <label for="signin-email">Email</label>
+                <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+            <div class="auth-field">
+                <label for="signin-password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="signin-password" placeholder="Enter password" required minlength="6" autocomplete="current-password">
+                    <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('signin-password', this)" aria-label="Show password"><i class='bx bx-show'></i></button>
+                </div>
+            </div>
+            <p class="auth-error" id="signin-error"></p>
+            <button type="submit" class="auth-submit-btn">Sign In</button>
+        </form>
+        <p class="auth-switch">Don't have an account? <a href="#" onclick="event.preventDefault(); switchAuthModal('signup')">Sign Up</a></p>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="auth-modal" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+        <button type="button" class="auth-modal-close" onclick="closeAuthModal()" aria-label="Close">&times;</button>
+        <h2 id="signup-title"><i class='bx bx-user-plus'></i> Create Account</h2>
+        <form id="signup-form" onsubmit="event.preventDefault(); handleSignUp()">
+            <div class="auth-field">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="Your full name" required minlength="2" autocomplete="name">
+            </div>
+            <div class="auth-field">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email">
+            </div>
+            <div class="auth-field">
+                <label for="signup-phone">Phone (optional)</label>
+                <input type="tel" id="signup-phone" placeholder="10-digit number" pattern="[0-9]{10}" autocomplete="tel">
+            </div>
+            <div class="auth-field">
+                <label for="signup-password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="signup-password" placeholder="Min 6 characters" required minlength="6" autocomplete="new-password">
+                    <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('signup-password', this)" aria-label="Show password"><i class='bx bx-show'></i></button>
+                </div>
+            </div>
+            <div class="auth-field">
+                <label for="signup-confirm">Confirm Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="signup-confirm" placeholder="Re-enter password" required minlength="6" autocomplete="new-password">
+                    <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('signup-confirm', this)" aria-label="Show password"><i class='bx bx-show'></i></button>
+                </div>
+            </div>
+            <p class="auth-error" id="signup-error"></p>
+            <button type="submit" class="auth-submit-btn">Create Account</button>
+        </form>
+        <p class="auth-switch">Already have an account? <a href="#" onclick="event.preventDefault(); switchAuthModal('signin')">Sign In</a></p>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <!-- Application Scripts -->
+    <script src="products.js"></script>
+    <script src="ecom.js"></script>
+</body>
+</html>
